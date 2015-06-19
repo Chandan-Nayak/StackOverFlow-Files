@@ -1,0 +1,51 @@
+package MultiLogin;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class login {
+	
+	public static FileInputStream ip;
+	public static Properties config;
+	public static WebDriver driver;
+	
+	@BeforeMethod public void doBeforeStuff() throws IOException{
+		System.setProperty("webdriver.chrome.driver", "/Users/chandan/Documents/selenium/chromedriver");
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		System.out.println(System.getProperty("user.dir"));
+		ip = new FileInputStream(System.getProperty("user.dir") + "/src/config/config.properties");
+		config = new Properties();
+		config.load(ip);
+	}
+	
+	@Test public void doLogin() throws InterruptedException{
+		System.out.println(config.getProperty("URL"));
+		System.out.println(config.getProperty("Login"));
+		System.out.println(config.getProperty("Password"));
+		List<String> items = Arrays.asList(config.getProperty("Login").split("\\s*,\\s*"));
+		
+		for (int i=0; i<items.size(); i++){
+		System.out.println(items.get(0) +  "-" + items.get(1));
+		driver.get(config.getProperty("URL"));
+		driver.findElement(By.xpath("//*[@id='login']/div[3]/div[2]/input")).sendKeys(items.get(i).trim());
+		driver.findElement(By.xpath("//*[@id='login']/div[4]/div[2]/input")).sendKeys(config.getProperty("Password"));
+		driver.findElement(By.xpath("//*[@id='login']/div[5]/button")).click();
+		Thread.sleep(10000);
+		driver.findElement(By.xpath("//*[@id='header']/div/div[2]/span/a[3]")).click();
+		}
+		
+	}
+
+}
