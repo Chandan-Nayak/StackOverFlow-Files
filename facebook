@@ -78,14 +78,4 @@ public class Facebook {
 		
 		}
 	}
-
-//	int printSize = frineds.size();
-//	for (int i=0; i<printSize; i++){
-//		System.out.println(frineds.get(i).getText());
-//	}
-
-
-
-
-
 }
