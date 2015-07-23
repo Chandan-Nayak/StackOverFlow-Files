@@ -9,7 +9,7 @@ class SeleniumTest(unittest.TestCase):
         self.driver.maximize_window()
         self.driver.implicitly_wait(30)
 
-    def test_search_in_python_org(self):
+    def test_search(self):
         driver = self.driver
         driver.get("http://stackoverflow.com/questions/31574046")
 
